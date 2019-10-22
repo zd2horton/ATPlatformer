@@ -66,7 +66,7 @@ bool GraphicsClass::Init(int s_width, int s_height, HWND hwnd)
 		return false;
 	}
 
-	result = m_model->Init(m_Direct3D->getDevice(), m_Direct3D->getDeviceContext(), (char*)"stonetex.tga");
+	result = m_model->Init(m_Direct3D->getDevice(), m_Direct3D->getDeviceContext(), (char*)"stonetex.tga", (char*)"cube.txt");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Cannot initialize model object.", L"Error!", MB_OK);

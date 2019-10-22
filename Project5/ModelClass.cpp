@@ -5,6 +5,7 @@ ModelClass::ModelClass()
 	m_vertex_buffer = 0;
 	m_index_buffer = 0;
 	m_texture = 0;
+	m_model = 0;
 }
 
 ModelClass::ModelClass(const ModelClass& other)
@@ -18,9 +19,19 @@ ModelClass::~ModelClass()
 
 }
 
-bool ModelClass::Init(ID3D11Device* device, ID3D11DeviceContext* device_context, char* file_name)
+bool ModelClass::Init(ID3D11Device* device, ID3D11DeviceContext* device_context, char* text_file_name, 
+	char* model_file_name)
 {
 	bool result;
+
+	//load in model data into m_model then build buffers
+	result = loadModel(model_file_name);
+	if (!result)
+	{
+		return false;
+	}
+
+
 	//init buffers
 	result = initBuffers(device);
 	if (!result)
@@ -29,7 +40,7 @@ bool ModelClass::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
 	}
 
 	//load texture
-	result = loadTexture(device, device_context, file_name);
+	result = loadTexture(device, device_context, text_file_name);
 	if (!result)
 	{
 		return false;
@@ -41,6 +52,7 @@ void ModelClass::Exit()
 {
 	releaseTexture();
 	exitBuffers();
+	releaseModel();
 }
 
 void ModelClass::Render(ID3D11DeviceContext* device_context)
@@ -66,16 +78,16 @@ bool ModelClass::initBuffers(ID3D11Device* device)
 	//handles creating buffers, set points in buffers manually for triangle
 	VertexType* vertices;
 	unsigned long* indices;
-
+	
 	D3D11_BUFFER_DESC vertex_buffer_desc;
 	D3D11_BUFFER_DESC index_buffer_desc;
 	D3D11_SUBRESOURCE_DATA vertex_data;
 	D3D11_SUBRESOURCE_DATA index_data;
 	HRESULT result;
-
+	
 	//arrays for holding vertex and index data for use of populating final buffers
-	m_vertex_count = 3;
-	m_index_count = 3;
+	//m_vertex_count = 3;
+	//m_index_count = 3;
 
 	vertices = new VertexType[m_vertex_count];
 	if (!vertices)
@@ -89,14 +101,26 @@ bool ModelClass::initBuffers(ID3D11Device* device)
 		return false;
 	}
 
+	//loop through all elements in model array and copy into vertex array
+	//each vertex loaded has same index number as position in array it was loaded into
+	for (int i = 0; i < m_vertex_count; i++)
+	{
+		vertices[i].position = XMFLOAT3(m_model[i].x, m_model[i].y, m_model[i].z);
+		vertices[i].texture = XMFLOAT2(m_model[i].tu, m_model[i].tv);
+		vertices[i].normal = XMFLOAT3(m_model[i].nx, m_model[i].ny, m_model[i].nz);
+		indices[i] = i;
+	}
+
+	
+	//way used without model
 	//fill arrays with triangle points and index to each (clockwise)
-	vertices[0].position = XMFLOAT3(-1.0f, -1.0f, 0.0f);  
+	/*vertices[0].position = XMFLOAT3(-1.0f, -1.0f, 0.0f);  
 	vertices[1].position = XMFLOAT3(0.0f, 1.0f, 0.0f);  
 	vertices[2].position = XMFLOAT3(1.0f, -1.0f, 0.0f); 
 
-	//vertices[0].colour = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	//vertices[1].colour = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	//vertices[2].colour = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertices[0].colour = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertices[1].colour = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertices[2].colour = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 
 	vertices[0].texture = XMFLOAT2(0.0f, 1.0f);
 	vertices[1].texture = XMFLOAT2(0.5f, 0.0f);
@@ -108,7 +132,7 @@ bool ModelClass::initBuffers(ID3D11Device* device)
 
 	indices[0] = 0;  
 	indices[1] = 1;
-	indices[2] = 2; 
+	indices[2] = 2; */
 
 	//create buffers using this data
 	//buffer descriptions
@@ -218,3 +242,65 @@ void ModelClass::releaseTexture()
 	}
 	return;
 }
+
+bool ModelClass::loadModel(char* model_file_name)
+{
+	//opens text file and reads in vertex count, then creating modeltype
+	//and reads each line into array
+	ifstream if_input;
+	char input;
+
+	if_input.open(model_file_name);
+	if (if_input.fail())
+	{
+		return false;
+	}
+
+	//read up to value of vertex count
+	if_input.get(input);
+	while (input != ':')
+	{
+		if_input.get(input);
+	}
+	//read in vertex count
+	if_input >> m_vertex_count;
+	//set number of indices to vertex count
+	m_index_count = m_vertex_count;
+
+	//create model using vertex count
+	m_model = new ModelType[m_vertex_count];
+	if (!m_model)
+	{
+		return false;
+	}
+
+	//read up to beginning of data
+	if_input.get(input);
+	while (input != ':')
+	{
+		if_input.get(input);
+	}
+	if_input.get(input);
+	if_input.get(input);
+
+	//read in vertex data
+	for (int i = 0; i < m_vertex_count; i++)
+	{
+		if_input >> m_model[i].x >> m_model[i].y >> m_model[i].z;
+		if_input >> m_model[i].tu >> m_model[i].tv;
+		if_input >> m_model[i].nx >> m_model[i].ny >> m_model[i].nz;
+	}
+	if_input.close();
+	return true;
+}
+
+void ModelClass::releaseModel()
+{
+	if (m_model)
+	{
+		delete[] m_model;
+		m_model = 0;
+	}
+	return;
+}
+

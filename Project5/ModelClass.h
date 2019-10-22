@@ -3,10 +3,13 @@
 
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include <fstream>
 
 #include "TextureClass.h"
 
 using namespace DirectX;
+using namespace std;
+
 class ModelClass
 {
 public:
@@ -14,7 +17,7 @@ public:
 	ModelClass(const ModelClass& other);
 	~ModelClass();
 
-	bool Init(ID3D11Device* device, ID3D11DeviceContext* device_context, char* file_name);
+	bool Init(ID3D11Device* device, ID3D11DeviceContext* device_context, char* text_file_name, char* model_file_name);
 	void Exit();
 	void Render(ID3D11DeviceContext* device_context);
 
@@ -37,18 +40,30 @@ private:
 		XMFLOAT3 normal; //light normal
 	};
 
+	struct ModelType
+	{
+		float x, y, z; //position vector
+		float tu, tv; //texture co-ords
+		float nx, ny, nz; //normal vector
+	};
+
+
 	ID3D11Buffer* m_vertex_buffer;
 	ID3D11Buffer* m_index_buffer;
 	int m_vertex_count;
 	int m_index_count;
 	TextureClass* m_texture;
+	ModelType* m_model;
 
 	bool initBuffers(ID3D11Device* device);
 	void exitBuffers();
 	void renderBuffers(ID3D11DeviceContext* device_context);
 	bool loadTexture(ID3D11Device* device, ID3D11DeviceContext* device_context, char* file_name);
 	void releaseTexture();
+
+	bool loadModel(char* model_file_name);
+	void releaseModel();
 };
-#endif // !_MODELCLASS_H_
+#endif // !_MODELCLASS_H
 
 
