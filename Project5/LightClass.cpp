@@ -16,15 +16,15 @@ LightClass::~LightClass()
 
 }
 
-void LightClass::setDiffuseColour(float red, float green, float blue, float alpha)
+void LightClass::setDiffuseColour(XMFLOAT4 new_diffuse)
 {
-	m_diffuse_colour = XMFLOAT4(red, green, blue, alpha);
+	m_diffuse_colour = new_diffuse;
 	return;
 }
 
-void LightClass::setDirection(float x, float y, float z)
+void LightClass::setDirection(XMFLOAT3 new_direction)
 {
-	m_direction = XMFLOAT3(x, y, z);
+	m_direction = new_direction;
 	return;
 }
 

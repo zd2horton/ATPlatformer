@@ -12,8 +12,8 @@ public:
 	LightClass(const LightClass& other);
 	~LightClass();
 
-	void setDiffuseColour(float red, float green, float blue, float alpha);
-	void setDirection(float x, float y, float z);
+	void setDiffuseColour(XMFLOAT4 new_diffuse);
+	void setDirection(XMFLOAT3 new_direction);
 
 	XMFLOAT4 GetDiffuseColor();
 	XMFLOAT3 GetDirection();

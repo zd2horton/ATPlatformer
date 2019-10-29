@@ -1,0 +1,5 @@
+Cube Count: 3
+
+Data:
+
+texture name, model name, model pos, model scale

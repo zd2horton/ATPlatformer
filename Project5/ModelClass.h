@@ -6,11 +6,12 @@
 #include <fstream>
 
 #include "TextureClass.h"
+#include "GameObject.h"
 
 using namespace DirectX;
 using namespace std;
 
-class ModelClass
+class ModelClass : public GameObject
 {
 public:
 	ModelClass();
