@@ -1,7 +1,2 @@
-﻿  GameObject.cpp
-  GraphicsClass.cpp
-  ModelClass.cpp
-  SystemClass.cpp
-  WinMain.cpp
-  Generating Code...
+﻿  Player.cpp
   Project5.vcxproj -> C:\Users\zach1\source\repos\Project5\ATPlatformer\x64\Debug\ATTraingle.exe

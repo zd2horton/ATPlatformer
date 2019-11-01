@@ -3,8 +3,10 @@
 
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include <string>
 
 using namespace DirectX;
+using namespace std;
 
 class GameObject
 {
@@ -33,7 +35,16 @@ public:
 
 	XMMATRIX getWorldMatrix();
 
+	string getTextureName();
+	void setTextureName(string new_tname);
+
+	string getModelName();
+	void setModelName(string new_mname);
+
 protected:
+
+	string texture_name;
+	string model_name;
 
 	XMFLOAT3 object_pos = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	XMFLOAT3 object_rot = XMFLOAT3(0.0f, 0.0f, 0.0f);

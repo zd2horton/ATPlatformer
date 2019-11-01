@@ -1,5 +1,4 @@
-Cube Count: 3
-
-Data:
-
-texture name, model name, model pos, model scale
+stonetex.tga,cube.txt,-3.0f,0.0f,0.0f,0.5f,0.5f,0.5f,0.52734375f,0.8046875f,0.91796875f,0.0f,0.0f,0.0f,1.0f
+stonetex.tga,cube.txt,-8.0f,3.0f,0.0f,0.25f,0.25f,0.25f,1.0f,0.592156862745098f,0.4784313725490196f,0.0f,0.0f,0.0f,1.0f
+stonetex.tga,cube.txt,0.0f,-1.0f,0.0f,0.75f,0.75f,0.75f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,1.0f
+stonetex.tga,cube.txt,1.5f,0.0f,0.0f,1.25f,0.75f,0.75f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f

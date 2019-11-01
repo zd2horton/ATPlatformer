@@ -10,6 +10,9 @@
 #include "LightShaderClass.h"
 #include "LightClass.h"
 
+#include <string>
+#include <sstream>
+#include <vector>
 
 class GraphicsClass
 {
@@ -26,6 +29,7 @@ public:
 	ModelClass* initModel(ModelClass* init_model, char* texture_name, char* model_filename,
 		XMFLOAT3 model_pos, XMFLOAT3 model_scale, HWND hwnd);
 	void exitModel(ModelClass* model_exit);
+	bool initModels(HWND hwnd);
 
 	LightClass* initLight(LightClass* init_light, XMFLOAT4 new_diffuse, XMFLOAT3 new_direction);
 	void exitLight(LightClass* model_light);
@@ -52,7 +56,8 @@ private:
 
 	int cube_number;
 	
-	ModelClass* cubes;
+	std::vector<ModelClass*> cubes;
+	std::vector<LightClass*> lights;
 };
 
 #endif // !_GRAPHICSCLASS_H_

@@ -90,3 +90,23 @@ XMMATRIX GameObject::getWorldMatrix()
 {
 	return world_matrix;
 }
+
+string GameObject::getTextureName()
+{
+	return texture_name;
+}
+
+void GameObject::setTextureName(string new_tname)
+{
+	texture_name = new_tname;
+}
+
+string GameObject::getModelName()
+{
+	return model_name;
+}
+
+void GameObject::setModelName(string new_mname)
+{
+	model_name = new_mname;
+}

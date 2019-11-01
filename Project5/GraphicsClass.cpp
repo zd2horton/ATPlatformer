@@ -84,6 +84,7 @@ bool GraphicsClass::Init(int s_width, int s_height, HWND hwnd)
 	m_light3 = initLight(m_light3, XMFLOAT4(0.7f, 0.7f, 0.7f, 0.0f),
 		XMFLOAT3(0.0f, 0.0f, 1.0f));
 
+	initModels(hwnd);
 
 	//create texture shader
 	m_texture_shader = new TextureShaderClass;
@@ -194,6 +195,24 @@ void GraphicsClass::Exit()
 		delete m_Direct3D;
 		m_Direct3D = 0;
 	}
+
+	for (ModelClass*& model_indiv : cubes)
+	{
+		if (model_indiv)
+		{
+			delete model_indiv;
+			model_indiv = nullptr;
+		}
+	}
+
+	for (LightClass*& light_indiv : lights)
+	{
+		if (light_indiv)
+		{
+			delete light_indiv;
+			light_indiv = nullptr;
+		}
+	}
 	return;
 }
 
@@ -216,6 +235,126 @@ void GraphicsClass::exitLight(LightClass* light_exit)
 	}
 }
 
+bool GraphicsClass::initModels(HWND hwnd)
+{
+	ifstream if_input;
+	int line_number = 0;
+
+	string line;
+	string temp_mname;
+	string temp_tname;
+	string temp_pos;
+
+	XMFLOAT3 temp_modelpos;
+	XMFLOAT3 temp_modelscale;
+
+	XMFLOAT4 temp_diffuse;
+	XMFLOAT3 temp_lightdir;
+
+	if_input.open("cube_data.txt");
+	if (if_input.fail())
+	{
+		return false;
+	}
+
+	cube_number = 0;
+	while (getline(if_input, line))
+	{
+		cube_number++;
+	}
+	if_input.close();
+
+	if_input.open("cube_data.txt");
+	if (if_input.fail())
+	{
+		return false;
+	}
+	
+	while (getline(if_input, line))
+	{
+		stringstream ss(line);
+		getline(ss, temp_tname, ',');
+		getline(ss, temp_mname, ',');
+
+		getline(ss, temp_pos, ',');
+		temp_modelpos.x = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_modelpos.y = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_modelpos.z = atof(temp_pos.c_str());
+
+		getline(ss, temp_pos, ',');
+		temp_modelscale.x = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_modelscale.y = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_modelscale.z = atof(temp_pos.c_str());
+
+		getline(ss, temp_pos, ',');
+		temp_diffuse.x = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_diffuse.y = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_diffuse.z = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_diffuse.w = atof(temp_pos.c_str());
+
+		getline(ss, temp_pos, ',');
+		temp_lightdir.x = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_lightdir.y = atof(temp_pos.c_str());
+		getline(ss, temp_pos, ',');
+		temp_lightdir.z = atof(temp_pos.c_str());
+
+		ModelClass* model_init = new ModelClass();
+		bool result;
+
+		if (!model_init)
+		{
+			return false;
+		}
+
+		model_init->setModelName(temp_mname);
+		model_init->setTextureName(temp_tname);
+		model_init->setPos(temp_modelpos);
+		model_init->setScaling(temp_modelscale);
+
+
+
+		result = model_init->Init(m_Direct3D->getDevice(), m_Direct3D->getDeviceContext(), (char*)"stonetex.tga", (char*)"cube.txt");
+		if (!result)
+		{
+			MessageBox(hwnd, L"Cannot initialize model object.", L"Error!", MB_OK);
+			return false;
+		}
+		cubes.push_back(model_init);
+
+		LightClass* light_init = new LightClass();
+		if (!light_init)
+		{
+			return false;
+		}
+		light_init->setDiffuseColour(temp_diffuse);
+		light_init->setDirection(temp_lightdir);
+		lights.push_back(light_init);
+	}
+
+	//for (int i = 0; i < (cube_number / 2); i++)
+	//{
+		//getline(if_input, line);
+		//temp_tname = line;
+
+		//getline(if_input, line);
+		//temp_mname = line;
+
+		//getline(if_input, line);
+		//string::size_type sz;
+	//}
+
+	if_input.close();
+	return true;
+}
+
 bool GraphicsClass::Frame()
 {
 	bool result;
@@ -229,18 +368,24 @@ bool GraphicsClass::Frame()
 		//rotation -= 360.0f;
 	//}
 
-	m_cube1->setPitch(m_cube1->getPitch() + 0.02f);
-	m_cube1->setRoll(m_cube1->getRoll() + 0.02f);
+	//m_cube1->setPitch(m_cube1->getPitch() + 0.02f);
+	//m_cube1->setRoll(m_cube1->getRoll() + 0.02f);
 
-	m_cube2->setRoll(m_cube2->getRoll() + 0.1f);
+	//m_cube2->setRoll(m_cube2->getRoll() + 0.1f);
 
-	m_cube3->setPitch(m_cube3->getPitch() + 0.08f);
-	m_cube3->setRoll(m_cube3->getRoll() + 0.1f);
-	m_cube3->setYaw(m_cube3->getYaw() + 0.05f);
+	//m_cube3->setPitch(m_cube3->getPitch() + 0.08f);
+	//m_cube3->setRoll(m_cube3->getRoll() + 0.1f);
+	//m_cube3->setYaw(m_cube3->getYaw() + 0.05f);
 
-	m_cube1->Frame();
-	m_cube2->Frame();
-	m_cube3->Frame();
+	//m_cube1->Frame();
+	//m_cube2->Frame();
+	//m_cube3->Frame();
+
+	for (int i = 0; i < cubes.size(); i++)
+	{
+		cubes[i]->Frame();
+	}
+
 
 	result = initRenderer();
 	if (!result)
@@ -248,7 +393,7 @@ bool GraphicsClass::Frame()
 		return false;
 	}
 
-	result = Render(m_cube1, m_light1);
+	/*result = Render(m_cube1, m_light1);
 	if (!result)
 	{
 		return false;
@@ -264,6 +409,16 @@ bool GraphicsClass::Frame()
 	if (!result)
 	{
 		return false;
+	}*/
+
+
+	for (int i = 0; i < cubes.size(); i++)
+	{
+		result = Render(cubes[i], lights[i]);
+		if (!result)
+		{
+			return false;
+		}
 	}
 
 	m_Direct3D->endScene();
