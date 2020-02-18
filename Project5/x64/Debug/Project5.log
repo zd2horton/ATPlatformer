@@ -1,2 +1,30 @@
-﻿  Player.cpp
-  Project5.vcxproj -> C:\Users\zach1\source\repos\Project5\ATPlatformer\x64\Debug\ATTraingle.exe
+﻿  CameraClass.cpp
+  ColourShaderClass.cpp
+  D3DClass.cpp
+d:\uni resources\various projects\repos\project5\atplatformer\project5\d3dclass.cpp(101): warning C4018: '<': signed/unsigned mismatch
+  GameObject.cpp
+  GraphicsClass.cpp
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(280): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(282): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(284): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(287): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(289): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(291): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(294): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(296): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(298): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(300): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(303): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(305): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\uni resources\various projects\repos\project5\atplatformer\project5\graphicsclass.cpp(307): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  InputClass.cpp
+  LightClass.cpp
+  LightShaderClass.cpp
+  ModelClass.cpp
+  Player.cpp
+  SystemClass.cpp
+  TextureClass.cpp
+  TextureShaderClass.cpp
+  WinMain.cpp
+  Generating Code...
+  Project5.vcxproj -> D:\Uni resources\Various Projects\repos\Project5\ATPlatformer\x64\Debug\ATTraingle.exe
